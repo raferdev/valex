@@ -1,27 +1,22 @@
 import { TransactionTypes } from "../repositories/cardRepository.js";
-import { faker, StringColorFormat } from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import dayjs from 'dayjs';
 import Repositories from "../repositories/index.js";
+import Utils from "../utils/index.js";
+import Cryptr from "cryptr";
 
 async function create(employee:any,company:any,type:TransactionTypes) {
-    let shortCardName = '';
-    const employeeNameArr = employee.fullName.split(' ');
-    employeeNameArr.forEach( (name:string, index:number)  => {
-        if(index === 0) {
-           return shortCardName += name
-        }
-        if(index === employeeNameArr.length-1) {
-           return shortCardName += ` ${name}`
-        }
-        if(name.length >= 3) {
-           return shortCardName += ` ${name[0].toLocaleUpperCase()}`;
-        }
-    })
+    const cryptr = new Cryptr(process.env.CRYPT);
+
+    employee.fullName = Utils.ShortName(employee.fullName);
+
+    const cvcNumber = (faker.random.numeric(3)).toString();
+
     const card = {
     employeeId: employee.id,
     number: faker.random.numeric(16),
-    cardholderName: shortCardName,
-    securityCode: faker.random.numeric(3),
+    cardholderName: employee.fullName,
+    securityCode: cryptr.encrypt(cvcNumber),
     expirationDate: dayjs().format('MM/YY'),
     password: null,
     isVirtual: false,
@@ -29,6 +24,7 @@ async function create(employee:any,company:any,type:TransactionTypes) {
     isBlocked: false,
     type,
     }
+    
     await Repositories.cards.insert(card);
 }
 
