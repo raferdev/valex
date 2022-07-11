@@ -122,3 +122,15 @@ export async function update(id: number, cardData: CardUpdateData) {
 export async function remove(id: number) {
   connection.query<any, [number]>("DELETE FROM cards WHERE id=$1", [id]);
 }
+
+const cards = {
+  find,
+  findById,
+  findByTypeAndEmployeeId,
+  findByCardDetails,
+  insert,
+  update,
+  remove
+}
+
+export default cards;
