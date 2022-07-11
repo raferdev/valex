@@ -1,4 +1,4 @@
-import { ShortName } from "./manipulateData"
+import { ShortName } from "./manipulateData.js"
 const Utils = {
     ShortName
 }

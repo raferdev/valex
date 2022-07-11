@@ -1,8 +1,7 @@
-import { faker } from "@faker-js/faker";
 
-export function ShortName(employee:any) {
+export function ShortName(employeeName:string) {
     let shortCardName = '';
-    const employeeNameArr = employee.fullName.split(' ');
+    const employeeNameArr = employeeName.split(' ');
     employeeNameArr.forEach( (name:string, index:number)  => {
         if(index === 0) {
            return shortCardName += name

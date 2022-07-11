@@ -24,7 +24,7 @@ async function create(employee:any,company:any,type:TransactionTypes) {
     isBlocked: false,
     type,
     }
-    
+
     await Repositories.cards.insert(card);
 }
 
