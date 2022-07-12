@@ -26,8 +26,16 @@ function calculateAmount(transactions:any) {
     return balance
 }
 
+async function recharge(cardId:number,amount:number) {
+    if(amount<=0) {
+        throw {type:'invalid',message:'Invalid recharge value.'}
+    }
+    return await Repositories.recharges.insert({cardId,amount})
+}
+
 const transactions = {
     get,
-    calculateAmount
+    calculateAmount,
+    recharge
 }
 export default transactions;
