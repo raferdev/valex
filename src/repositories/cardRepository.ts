@@ -30,10 +30,10 @@ export async function find() {
   return result.rows;
 }
 
-export async function findById(id: number) {
-  const result = await connection.query<Card, [number]>(
-    "SELECT * FROM cards WHERE id=$1",
-    [id]
+export async function findByNumber(number: string) {
+  const result = await connection.query<Card, [string]>(
+    "SELECT * FROM cards WHERE number=$1",
+    [number]
   );
 
   return result.rows[0];
@@ -109,7 +109,7 @@ export async function update(id: number, cardData: CardUpdateData) {
       offset: 2,
     });
 
-  connection.query(
+  return await connection.query(
     `
     UPDATE cards
       SET ${cardColumns}
@@ -125,7 +125,7 @@ export async function remove(id: number) {
 
 const cards = {
   find,
-  findById,
+  findByNumber,
   findByTypeAndEmployeeId,
   findByCardDetails,
   insert,

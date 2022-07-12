@@ -5,7 +5,7 @@ function errorHandlerMd(error:any,req:Request,res:Response,next:NextFunction) {
     if(error.type==='auth error') {
        return res.send(error.message).status(501);
     }
-    return res.send(error)
+    return res.send(error.message).status(501);
 }
 
 export default errorHandlerMd;

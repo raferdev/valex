@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import Repositories from "../repositories/index.js";
 import Utils from "../utils/index.js";
 import Cryptr from "cryptr";
+import bcrypt from 'bcrypt';
 
 async function create(employee:any,company:any,type:TransactionTypes) {
     const cryptr = new Cryptr(process.env.CRYPT);
@@ -28,8 +29,30 @@ async function create(employee:any,company:any,type:TransactionTypes) {
     await Repositories.cards.insert(card);
 }
 
+async function find(cardNumber:string) {
+    const result  = await Repositories.cards.findByNumber(cardNumber);
+    return result;
+}
+
+function isActive(card:any) {
+    if(card.password===null) {
+    return false
+    }
+    return true
+}
+async function active(pass:any,cardID:number) {
+    const hashCost = 10;
+
+    const password = bcrypt.hashSync(pass, hashCost);
+
+   return await Repositories.cards.update(cardID,{password});
+}
+
 const card = {
     create,
+    find,
+    isActive,
+    active
 };
 
 export default card;
