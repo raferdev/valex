@@ -13,16 +13,20 @@ import confirmTypeTransaction from "../middlewares/confirmTypeTransactionMd.js";
 import employeeVerifyMd from "../middlewares/employeeVerifyMd.js";
 import findCardMd from "../middlewares/findCardMd.js";
 import isBlockOrExpiredCardMd from "../middlewares/isBlockOrExpiredCardMd.js";
+import activeCardSchemaMd from "../middlewares/schemas/activeCardSchemaMd.js";
+import createCardSchemaMd from "../middlewares/schemas/createCardSchemaMd.js";
+import paymentCardSchemaMd from "../middlewares/schemas/paymentCardSchemaMd.js";
+import rechargeCardSchemaMd from "../middlewares/schemas/rechargeCardSchemaMd.js";
 import uniqueCardVerifyMd from "../middlewares/uniqueCardVerifyMd.js";
 
 const cardRouter = Router();
 
-cardRouter.post('/card/create', companyKeyHandlerMd, employeeVerifyMd,uniqueCardVerifyMd,createCardCr);
-cardRouter.post('/card/activate', findCardMd, cardIsActiveMd, activeCardCr);
-cardRouter.post('/card/block',findCardMd,confirmPasswordCardMd,blockCardCr);
-cardRouter.post('/card/unblock',findCardMd,companyKeyHandlerMd,unblockCardCr);
-cardRouter.post('/card/transactions/recharge',companyKeyHandlerMd,findCardMd,isBlockOrExpiredCardMd,rechargeCardCr)
-cardRouter.post('/card/transactions/payment',findCardMd,isBlockOrExpiredCardMd,confirmPasswordCardMd,confirmTypeTransaction,paymentCardCr);
+cardRouter.post('/card/create', createCardSchemaMd,companyKeyHandlerMd, employeeVerifyMd,uniqueCardVerifyMd,createCardCr);
+cardRouter.post('/card/activate',activeCardSchemaMd, findCardMd, cardIsActiveMd, activeCardCr);
+cardRouter.post('/card/block',activeCardSchemaMd,findCardMd,confirmPasswordCardMd,blockCardCr);
+cardRouter.post('/card/unblock',activeCardSchemaMd,findCardMd,companyKeyHandlerMd,unblockCardCr);
+cardRouter.post('/card/transactions/recharge',rechargeCardSchemaMd,companyKeyHandlerMd,findCardMd,isBlockOrExpiredCardMd,rechargeCardCr);
+cardRouter.post('/card/transactions/payment',paymentCardSchemaMd,findCardMd,isBlockOrExpiredCardMd,confirmPasswordCardMd,confirmTypeTransaction,paymentCardCr);
 
 cardRouter.get('/card/transactions',findCardMd,transactionsCardCr);
 
