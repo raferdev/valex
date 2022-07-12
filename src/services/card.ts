@@ -47,12 +47,28 @@ async function active(pass:any,cardID:number) {
 
    return await Repositories.cards.update(cardID,{password});
 }
+async function block(card:any) {
+    const id = card.id;
+    const expiration = card.expirationDate
+    const isValid = dayjs().isAfter(expiration, 'month')
+    let isBlocked = card.isBlocked
+
+    if(!isValid) {
+        throw {type:'expired',message:'this card is expired'}
+    }
+    if(isBlocked) {
+        throw {type:'blocked',message:'this card is blocked'}
+    }
+    isBlocked = true
+    return await Repositories.cards.update(id,{isBlocked})
+}
 
 const card = {
     create,
     find,
     isActive,
-    active
+    active,
+    block
 };
 
 export default card;
