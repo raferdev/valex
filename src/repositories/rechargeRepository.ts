@@ -25,3 +25,10 @@ export async function insert(rechargeData: RechargeInsertData) {
     [cardId, amount]
   );
 }
+
+const recharges = {
+  findByCardId,
+  insert
+};
+
+export default recharges;

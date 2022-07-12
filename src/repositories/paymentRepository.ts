@@ -33,3 +33,8 @@ export async function insert(paymentData: PaymentInsertData) {
     [cardId, businessId, amount]
   );
 }
+const payments = {
+  findByCardId,
+  insert
+}
+export default payments;
