@@ -7,6 +7,9 @@ function isBlockOrExpiredCardMd(req:Request,res:Response,next:NextFunction) {
     const isValid = dayjs().isAfter(expiration, 'month')
     let isBlocked = card.isBlocked
 
+    if(card.password===null) {
+        throw {type:'inactive',message:'This card is inactive.'}
+    }
     if(!isValid) {
         throw {type:'expired',message:'this card is expired'}
     }

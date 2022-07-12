@@ -1,3 +1,4 @@
+import { NumberColorFormat } from "@faker-js/faker";
 import Repositories from "../repositories/index.js";
 
 async function get(id:number) {
@@ -32,10 +33,13 @@ async function recharge(cardId:number,amount:number) {
     }
     return await Repositories.recharges.insert({cardId,amount})
 }
-
+async function payment(cardId:number,businessId:number, amount:number) {
+    return await Repositories.payments.insert({ cardId, businessId, amount } )
+}
 const transactions = {
     get,
     calculateAmount,
-    recharge
+    recharge,
+    payment
 }
 export default transactions;

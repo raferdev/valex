@@ -2,6 +2,7 @@ import { Router } from "express";
 import activeCardCr from "../controllers/activeCardCr.js";
 import blockCardCr from "../controllers/blockCardCr.js";
 import createCardCr from "../controllers/createCardCr.js";
+import paymentCardCr from "../controllers/paymentCardCr.js";
 import rechargeCardCr from "../controllers/rechargeCardCr.js";
 import transactionsCardCr from "../controllers/transactionsCardCr.js";
 import unblockCardCr from "../controllers/unblockCardCr.js";
@@ -21,5 +22,5 @@ cardRouter.get('/card/transactions',findCardMd,transactionsCardCr);
 cardRouter.post('/card/block',findCardMd,confirmPasswordCardMd,blockCardCr);
 cardRouter.post('/card/unblock',findCardMd,companyKeyHandlerMd,unblockCardCr);
 cardRouter.post('/card/recharge',companyKeyHandlerMd,findCardMd,isBlockOrExpiredCardMd,rechargeCardCr)
-
+cardRouter.post('/card/payment',findCardMd,confirmPasswordCardMd,isBlockOrExpiredCardMd,paymentCardCr);
 export default cardRouter;
