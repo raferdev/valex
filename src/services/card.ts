@@ -62,13 +62,30 @@ async function block(card:any) {
     isBlocked = true
     return await Repositories.cards.update(id,{isBlocked})
 }
+async function unblock(card:any) {
+    const id = card.id;
+    const expiration = card.expirationDate
+    const isValid = dayjs().isAfter(expiration, 'month')
+    let isBlocked = card.isBlocked
+
+    if(!isValid) {
+        throw {type:'expired',message:'this card is expired'}
+    }
+    if(!isBlocked) {
+        throw {type:'blocked',message:'this card is unblocked'}
+    }
+    isBlocked = false
+    return await Repositories.cards.update(id,{isBlocked})
+}
+
 
 const card = {
     create,
     find,
     isActive,
     active,
-    block
+    block,
+    unblock
 };
 
 export default card;
