@@ -17,7 +17,7 @@ async function create(employee:any,company:any,type:TransactionTypes) {
     number: faker.random.numeric(16),
     cardholderName: employee.fullName,
     securityCode: cryptr.encrypt(cvcNumber),
-    expirationDate: dayjs().format('MM/YY'),
+    expirationDate: dayjs().add(5, "years").format('MM/YY'),
     password: null,
     isVirtual: false,
     originalCardId: null,
