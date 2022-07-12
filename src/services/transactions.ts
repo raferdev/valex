@@ -36,10 +36,20 @@ async function recharge(cardId:number,amount:number) {
 async function payment(cardId:number,businessId:number, amount:number) {
     return await Repositories.payments.insert({ cardId, businessId, amount } )
 }
+
+async function businessType(id:number) {
+    const business = await Repositories.businesses.findById(id);
+    if(!business) {
+        throw {type:"Invalid",message:"Invalid Business."}
+    }
+    return business.type
+}
 const transactions = {
     get,
     calculateAmount,
     recharge,
-    payment
+    payment,
+    businessType
 }
+
 export default transactions;
